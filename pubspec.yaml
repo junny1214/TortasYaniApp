@@ -1,0 +1,44 @@
+name: recipe_book
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Peticiones HTTP
+  http: ^1.6.0
+
+  # Manejo de estado
+  provider: ^6.1.5+1
+
+  # Localización
+  flutter_localizations:
+    sdk: flutter
+
+  intl: 0.20.2
+
+  cupertino_icons: ^1.0.8
+
+  # Iconos modernos
+  iconsax: ^0.0.8
+  shared_preferences: ^2.5.4
+  image_picker: ^1.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  assets:
+    - assets/images/
