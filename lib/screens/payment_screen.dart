@@ -6,7 +6,14 @@ import '../providers/cart_provider.dart';
 import 'app_main_screen.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+  final String tipoEntrega;
+  final String ubicacion;
+
+  const PaymentScreen({
+    super.key,
+    required this.tipoEntrega,
+    required this.ubicacion,
+  });
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -26,7 +33,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
-    final total = cart.totalPrice + 5;
+    final total = widget.tipoEntrega == "delivery"
+        ? cart.totalPrice + 5
+        : cart.totalPrice;
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 10, 17, 41),
@@ -55,23 +64,61 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 color: const Color(0xFF1A2340),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
                 children: [
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Total a pagar", style: TextStyle(color: Colors.white54, fontSize: 13)),
-                      SizedBox(height: 4),
-                      Text("Incluye delivery S/ 5", style: TextStyle(color: Colors.white38, fontSize: 11)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Total a pagar", style: TextStyle(color: Colors.white54, fontSize: 13)),
+                          const SizedBox(height: 4),
+                          Text(
+                            widget.tipoEntrega == "delivery"
+                                ? "Incluye delivery S/ 5"
+                                : "Recojo en local - Sin delivery",
+                            style: const TextStyle(color: Colors.white38, fontSize: 11),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "S/ ${total.toStringAsFixed(0)}",
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFE91E63),
+                        ),
+                      ),
                     ],
                   ),
-                  Text(
-                    "S/ ${total.toStringAsFixed(0)}",
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFFE91E63),
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: widget.tipoEntrega == "delivery"
+                          ? const Color(0xFFE91E63).withOpacity(0.15)
+                          : Colors.green.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          widget.tipoEntrega == "delivery" ? Icons.delivery_dining : Icons.store,
+                          color: widget.tipoEntrega == "delivery" ? const Color(0xFFE91E63) : Colors.green,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          widget.tipoEntrega == "delivery" ? "Delivery a domicilio" : "Recojo en local",
+                          style: TextStyle(
+                            color: widget.tipoEntrega == "delivery" ? const Color(0xFFE91E63) : Colors.green,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -125,6 +172,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
               ),
             ),
+
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -194,9 +243,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
             ],
           ),
-
           const SizedBox(height: 16),
-
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -220,9 +267,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
             ),
           ),
-
           const SizedBox(height: 16),
-
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
@@ -246,9 +291,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ],
             ),
           ),
-
           const SizedBox(height: 10),
-
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
@@ -260,20 +303,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
               style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
             ),
           ),
-
           const SizedBox(height: 8),
-
-          const Text(
-            "Ericson David Mendoza Diaz",
-            style: TextStyle(color: Colors.white54, fontSize: 12),
-          ),
-
+          const Text("Ericson David Mendoza Diaz", style: TextStyle(color: Colors.white54, fontSize: 12)),
           const SizedBox(height: 8),
-
-          const Text(
-            "Escanea el QR o ingresa el número",
-            style: TextStyle(color: Colors.white38, fontSize: 11),
-          ),
+          const Text("Escanea el QR o ingresa el número", style: TextStyle(color: Colors.white38, fontSize: 11)),
         ],
       ),
     );
@@ -305,9 +338,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
             ],
           ),
-
           const SizedBox(height: 16),
-
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -320,9 +351,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               size: 200,
             ),
           ),
-
           const SizedBox(height: 16),
-
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
@@ -346,9 +375,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ],
             ),
           ),
-
           const SizedBox(height: 10),
-
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
@@ -360,13 +387,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
               style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
             ),
           ),
-
           const SizedBox(height: 8),
-
-          const Text(
-            "Ericson David Mendoza Diaz",
-            style: TextStyle(color: Colors.white54, fontSize: 12),
-          ),
+          const Text("Ericson David Mendoza Diaz", style: TextStyle(color: Colors.white54, fontSize: 12)),
         ],
       ),
     );
@@ -403,10 +425,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             children: [
               Icon(Icons.security, color: Colors.white38, size: 14),
               SizedBox(width: 6),
-              Text(
-                "Pago seguro con encriptación SSL",
-                style: TextStyle(color: Colors.white38, fontSize: 11),
-              ),
+              Text("Pago seguro con encriptación SSL", style: TextStyle(color: Colors.white38, fontSize: 11)),
             ],
           ),
         ],
@@ -444,7 +463,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
     setState(() => _isProcessing = false);
 
     final items = List<CartItem>.from(cart.items);
-    final total = cart.totalPrice + 5;
+    final total = widget.tipoEntrega == "delivery"
+        ? cart.totalPrice + 5
+        : cart.totalPrice;
     final orderNumber = "TY-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}";
     final whatsappNumber = "51919576034";
 
@@ -458,7 +479,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
       mensaje.writeln("• ${item.cantidad}x ${item.nombre} (Talla: ${item.tamanio}) - S/ ${item.subtotal.toStringAsFixed(0)}");
     }
     mensaje.writeln();
-    mensaje.writeln("🚚 Delivery: S/ 5");
+
+    if (widget.tipoEntrega == "delivery") {
+      mensaje.writeln("🚚 *Tipo:* Delivery");
+      mensaje.writeln("🚚 Delivery: S/ 5");
+      if (widget.ubicacion.isNotEmpty) {
+        mensaje.writeln("📍 *Mi ubicación:* ${widget.ubicacion}");
+      }
+    } else {
+      mensaje.writeln("🏪 *Tipo:* Recojo en local");
+      mensaje.writeln("🚚 Delivery: Gratis");
+    }
+
     mensaje.writeln("💰 *Total: S/ ${total.toStringAsFixed(0)}*");
     mensaje.writeln();
     mensaje.writeln("✅ Pago realizado. Por favor confirmar mi pedido. ¡Gracias!");
@@ -477,6 +509,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           items: items,
           total: total,
           orderNumber: orderNumber,
+          tipoEntrega: widget.tipoEntrega,
         ),
       ),
           (route) => false,
@@ -488,12 +521,14 @@ class PaymentSuccessScreen extends StatefulWidget {
   final List<CartItem> items;
   final double total;
   final String orderNumber;
+  final String tipoEntrega;
 
   const PaymentSuccessScreen({
     super.key,
     required this.items,
     required this.total,
     required this.orderNumber,
+    required this.tipoEntrega,
   });
 
   @override
@@ -553,6 +588,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
 
             const SizedBox(height: 24),
 
+            // NÚMERO DE PEDIDO
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -574,6 +610,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
 
             const SizedBox(height: 16),
 
+            // RESUMEN
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -609,11 +646,17 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
                     ),
                   )),
                   const Divider(color: Colors.white12),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Delivery", style: TextStyle(color: Colors.white54, fontSize: 13)),
-                      Text("S/ 5", style: TextStyle(color: Colors.white54, fontSize: 13)),
+                      const Text("Delivery", style: TextStyle(color: Colors.white54, fontSize: 13)),
+                      Text(
+                        widget.tipoEntrega == "delivery" ? "S/ 5" : "Gratis",
+                        style: TextStyle(
+                          color: widget.tipoEntrega == "delivery" ? Colors.white54 : Colors.green,
+                          fontSize: 13,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 6),
@@ -633,6 +676,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
 
             const SizedBox(height: 16),
 
+            // TIEMPO ESTIMADO
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
@@ -654,6 +698,35 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
 
             const SizedBox(height: 16),
 
+            // TIPO DE ENTREGA
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1A2340),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    widget.tipoEntrega == "delivery" ? Icons.delivery_dining : Icons.store,
+                    color: const Color(0xFFE91E63),
+                    size: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    widget.tipoEntrega == "delivery"
+                        ? "Entrega a domicilio 🚚"
+                        : "Recojo en local 🏪",
+                    style: const TextStyle(color: Colors.white70, fontSize: 13),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // CALIFICACIÓN
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -697,6 +770,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
 
             const SizedBox(height: 20),
 
+            // BOTÓN WHATSAPP
             SizedBox(
               width: double.infinity,
               height: 52,
@@ -718,6 +792,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen> {
 
             const SizedBox(height: 12),
 
+            // BOTÓN VOLVER
             SizedBox(
               width: double.infinity,
               height: 52,
