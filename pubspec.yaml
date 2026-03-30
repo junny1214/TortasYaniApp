@@ -29,6 +29,8 @@ dependencies:
   iconsax: ^0.0.8
   shared_preferences: ^2.5.4
   image_picker: ^1.2.1
+  qr_flutter: ^4.1.0
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
