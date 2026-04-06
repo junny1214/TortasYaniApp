@@ -13,8 +13,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.recipebookdemodev.recipe_book"
-    compileSdk = 34
-    ndkVersion = "21.3.6"
+    compileSdk = 36
+    ndkVersion "28.2.13676358"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
