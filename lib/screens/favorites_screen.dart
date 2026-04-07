@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/favorites_provider.dart';
-import '../providers/cart_provider.dart';
-
+import 'custom_cake_popup.dart';
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
 
@@ -162,19 +161,7 @@ class FavoritesScreen extends StatelessWidget {
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFFE91E63)),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        final cart = Provider.of<CartProvider>(context, listen: false);
-                        cart.addItem(torta, "M");
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("${torta["nombre"]} agregado 🛒"),
-                            backgroundColor: const Color(0xFFE91E63),
-                            duration: const Duration(seconds: 1),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          ),
-                        );
-                      },
+                      onTap: () => mostrarPopupPersonalizacion(context, torta),
                       child: Container(
                         width: 28,
                         height: 28,

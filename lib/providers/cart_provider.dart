@@ -5,6 +5,11 @@ class CartItem {
   final String imagen;
   final double precio;
   final String tamanio;
+  final String sabor;
+  final int pisos;
+  final int porciones;
+  final String colorDecoracion;
+  final String mensaje;
   int cantidad;
 
   CartItem({
@@ -12,6 +17,11 @@ class CartItem {
     required this.imagen,
     required this.precio,
     required this.tamanio,
+    required this.sabor,
+    required this.pisos,
+    required this.porciones,
+    required this.colorDecoracion,
+    required this.mensaje,
     this.cantidad = 1,
   });
 
@@ -27,9 +37,24 @@ class CartProvider extends ChangeNotifier {
 
   double get totalPrice => _items.fold(0, (sum, item) => sum + item.subtotal);
 
-  void addItem(Map<String, dynamic> torta, String tamanio) {
+  void addItem(
+    Map<String, dynamic> torta, 
+    String tamanio, 
+    double precioFinal,
+    String sabor,
+    int pisos,
+    int porciones,
+    String colorDecoracion,
+    String mensaje,
+  ) {
     final index = _items.indexWhere(
-          (item) => item.nombre == torta["nombre"] && item.tamanio == tamanio,
+          (item) => item.nombre == torta["nombre"] && 
+                    item.tamanio == tamanio &&
+                    item.sabor == sabor &&
+                    item.pisos == pisos &&
+                    item.porciones == porciones &&
+                    item.colorDecoracion == colorDecoracion &&
+                    item.mensaje == mensaje,
     );
 
     if (index >= 0) {
@@ -38,8 +63,13 @@ class CartProvider extends ChangeNotifier {
       _items.add(CartItem(
         nombre: torta["nombre"],
         imagen: torta["imagen"],
-        precio: torta["precio"],
+        precio: precioFinal,
         tamanio: tamanio,
+        sabor: sabor,
+        pisos: pisos,
+        porciones: porciones,
+        colorDecoracion: colorDecoracion,
+        mensaje: mensaje,
       ));
     }
     notifyListeners();

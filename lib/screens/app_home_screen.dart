@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../utils/constants.dart';
 import '../providers/cart_provider.dart';
 import 'cart_screen.dart';
 import '../providers/favorites_provider.dart';
-
+import 'custom_cake_popup.dart';
 class MyAppHomeScreen extends StatefulWidget {
   const MyAppHomeScreen({super.key});
 
@@ -184,7 +185,10 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                   ),
                   itemCount: tortasFiltradas.length,
                   itemBuilder: (context, index) {
-                    return tortaCard(tortasFiltradas[index]);
+                    return tortaCard(tortasFiltradas[index])
+                        .animate()
+                        .fade(duration: 400.ms, delay: (50 * index).ms)
+                        .slideY(begin: 0.1, duration: 400.ms, delay: (50 * index).ms);
                   },
                 ),
                 const SizedBox(height: 20),
@@ -389,7 +393,7 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                     ),
                   ),
                 ),
-              );
+              ).animate().fade(duration: 300.ms, delay: (50 * index).ms).slideX(begin: 0.05);
             },
           ),
         ),
@@ -406,7 +410,7 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
 
   Widget tortaCard(Map<String, dynamic> torta) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => mostrarPopupPersonalizacion(context, torta),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -551,19 +555,7 @@ class _MyAppHomeScreenState extends State<MyAppHomeScreen> {
                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color(0xFFE91E63)),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          final cart = Provider.of<CartProvider>(context, listen: false);
-                          cart.addItem(torta, "M");
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("${torta["nombre"]} agregado 🛒"),
-                              backgroundColor: const Color(0xFFE91E63),
-                              duration: const Duration(seconds: 1),
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            ),
-                          );
-                        },
+                        onTap: () => mostrarPopupPersonalizacion(context, torta),
                         child: Container(
                           width: 28,
                           height: 28,

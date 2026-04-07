@@ -28,6 +28,15 @@ dependencies:
   # Iconos modernos
   iconsax: ^0.0.8
   shared_preferences: ^2.5.4
+
+  # Tipografía y SVG
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10+1
+  
+  # UI Pro y Animaciones
+  flutter_animate: ^4.5.0
+  slide_to_act: ^2.0.2
+
   image_picker: ^1.2.1
   qr_flutter: ^4.1.0
   url_launcher: ^6.3.2
