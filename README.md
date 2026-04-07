@@ -1,3 +1,6 @@
+!. Descargar el repositorio
+2. Instalar dependencias
+3. Actualizar Depedencias
 # recipe_book
 
 A new Flutter project.
